@@ -7,6 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    
+    <script>
+        function Test(name){
+            //类似于闭包
+           if(typeof Test.instance == 'object'){
+               return Test.instance;
+           }
+           this.name = name;
+           Test.instance = this;
+        }
+       
+        var a = new Test(name);
+        var b = new Test();
+        console.log(a===b)
+    </script>
 </body>
 </html>
