@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>代理模式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+       div{
+           border: 1px solid black;
+           display: inline-block;
+           
+       }
+       img{
+        width: 200px;
+           height: 200px;
+       }
+       
+    </style>
+</head>
+  <div id="demo"></div>
+  <button id="oBtn">login</button>
+<body>
+    <script>
+        var MyImage = function(id){
+            var oIm = new Image();
+            this.setSrc = function(src){
+                oIm.src = src;
+            }
+            document.getElementById(id).appendChild(oIm)
+        };
+        
+        // var a = new MyImage('demo');
+        // a.setSrc('./hlj.jpg')
+
+     //先立即执行一次 返回函数 普通执行不行
+     var bb =(function(){
+          var a = new MyImage('demo');
+          var b = new Image();
+          b.onload = function(){
+              a.setSrc(b.src)
+          }
+          return function(src){
+            a.setSrc('./hlj.jpg');
+              b.src = src;
+          }
+     })() 
+    bb('./lu.jpg')
+    </script>
+</body>
+</html>
