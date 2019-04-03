@@ -6,6 +6,7 @@
     <title>设计模式</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+<button>点击</button>
 <body>
     <script>
         //不符合开闭原则
@@ -23,17 +24,63 @@
         // console.log(a===b)
 
 
-        function Test(name){
-            var instance = this;
-            this.name = name;
-            //改变Test指向 不完美 因为要新加原型加不上去
-            Test = function(){
-                return instance;
+        // function Test(name){
+        //     var instance = this;
+        //     this.name = name;
+        //     //改变Test指向 不完美 因为要新加原型加不上去
+        //     Test = function(){
+        //         return instance;
+        //     }
+        // }
+        // var a = new Test(name);
+        // var b = new Test();
+        // console.log(a===b)
+
+
+        //比较完美的单例
+        // var Test = (function(){
+        //     var instance;
+        //     return function(name){
+        //        this.name = name;
+        //        if(typeof instance == 'object'){
+        //            return instance;
+        //        };
+        //        instance = this;
+        //     } 
+        // })()
+
+        // var a = new Test(name);
+        // var b = new Test();
+        // console.log(a===b)
+
+
+
+        function getSingal(fun){
+            var res;
+            return function(){
+                //res没有值的时候
+                if(!res){
+                    //单例核心
+                 res = fun.apply(this,arguments)
+                }
+                return res;
             }
         }
-        var a = new Test(name);
-        var b = new Test();
-        console.log(a===b)
+
+        function go(text){
+           var oDiv = document.createElement('div');
+           oDiv.style.display = 'none';
+           oDiv.innerText = text;
+           document.body.appendChild(oDiv);
+           return oDiv;
+        }
+
+     var btn = document.getElementsByTagName('button')[0];
+     var s = getSingal(go);
+     btn.onclick = function(){
+          var oDiv = s('du');
+          oDiv.style.display = 'block'
+     }
     </script>
 </body>
 </html>
