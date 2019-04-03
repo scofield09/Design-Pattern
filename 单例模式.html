@@ -8,15 +8,29 @@
 </head>
 <body>
     <script>
-        function Test(name){
-            //类似于闭包
-           if(typeof Test.instance == 'object'){
-               return Test.instance;
-           }
-           this.name = name;
-           Test.instance = this;
-        }
+        //不符合开闭原则
+        // function Test(name){
+        //     //类似于闭包
+        //    if(typeof Test.instance == 'object'){
+        //        return Test.instance;
+        //    }
+        //    this.name = name;
+        //    Test.instance = this;
+        // }
        
+        // var a = new Test(name);
+        // var b = new Test();
+        // console.log(a===b)
+
+
+        function Test(name){
+            var instance = this;
+            this.name = name;
+            //改变Test指向 不完美 因为要新加原型加不上去
+            Test = function(){
+                return instance;
+            }
+        }
         var a = new Test(name);
         var b = new Test();
         console.log(a===b)
