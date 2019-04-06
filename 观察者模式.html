@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Event(){
+            this.cache = {};
+        };
+        Event.prototype.on = function(type, handle){
+            if(!this.cache[type]){
+                this.cache[type] = [handle]
+            }else{
+                this.cache[type].push(handle)
+            }
+        }
+        Event.prototype.emit = function(){
+            var type = arguments[0];
+            var agr = [].slice.call(arguments,1);
+            for(let i = 0;i<this.cache[type].length;i++){
+                this.cache[type][i].apply(this,agr);
+            }
+        };
+
+        Event.prototype.empty = function(type){
+            this.cache[type] = []
+        };
+
+        Event.prototype.remove = function(type,handle){
+            this.cache[type] = this.cache[type].filter((ele)=>{
+                return ele != handle
+            })
+        }
+        var oE = new Event();
+        function deal1(time) {
+            console.log('overtime1:' + time);
+        }
+        function deal2(time){
+            console.log('overtime2:' + time);
+        }
+        
+        oE.on('over', deal1);
+        oE.on('over', deal2);
+        oE.emit('over','2019-4-6');
+        oE.remove('over',deal1);
+        oE.emit('over','2019-4-6');
+    </script>
+</body>
+</html>
